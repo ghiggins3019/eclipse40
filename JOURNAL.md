@@ -53,3 +53,26 @@ I had to assign footprints in KiCAD, making sure I choose hand-solderable compon
 
 I laid traces and vias for I think everything, but DRC says I have issues, so I'll check them out tomorrow.   
 
+## 10/30/2025 - Restarted the PCB, routed new PCB  
+
+After doing some research,
+- I realized I chose a bad MCU (switching from ATmega32U4 to STM32F072CBT for QMK firmware compatibility)
+- I chose the wrong switch symbol/footprint
+- I chose the wrong uDB symbol/footprint (which caused some pretty big issues)
+- I routed traces very messily
+
+Because of these issues, I thought my PCB was too far in disrepair to try to fix it, so I decided to start from scratch. 
+
+My new PCB uses
+- STM32F072CBT as the MCU
+- Kailh hotswap socket symbols/footprints
+- the correct symbol and footprint for the uDB-S connector, which causes no more issues through KiCAD
+- traces routed much much neater
+
+I still need to fix a couple of issues, add the proper Edge.Cuts for my o-ring mounting style, and maybe add a decorative silkscreen layer...
+
+![pcb0](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NjkxMywicHVyIjoiYmxvYl9pZCJ9fQ==--24b73c4879d0697cf7592aa4355fb2dbe39704c9/pcb0.png)
+
+![schem0](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NjkxNCwicHVyIjoiYmxvYl9pZCJ9fQ==--c364b406808629fa7af29ba9ad661d692e75b71a/schem0.png)
+  
+
