@@ -76,3 +76,57 @@ I still need to fix a couple of issues, add the proper Edge.Cuts for my o-ring m
 ![schem0](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NjkxNCwicHVyIjoiYmxvYl9pZCJ9fQ==--c364b406808629fa7af29ba9ad661d692e75b71a/schem0.png)
   
 
+## 10/31/2025 - Fixed some PCB issues  
+
+I knew I had some issues with my PCB routing from yesterday, so I talked to my resident PCB expert. 
+
+**Here's what was wrong:**
+- Laid out capacitors really badly in a daisy chain
+- Some capacitors had wrong values
+- Decouplinng capacitors were all wired together in the schematic
+- Footprints were for hand-soldering components, but I plan to use JLC's PCBA
+- AMS1117 is pretty bulky for a 40% board
+- No stabilizers
+- Differential pair for USB data wasn't routed how a differential pair should be routed
+
+**How I fixed the issues**
+- Laid out capacitors close to what they are intended to decouple
+- Fixed all capacitor values
+- Laid out decoupling capacitors individually/in pairs in the schematic (pictures of new capacitor schematic and layout below)
+- Switched to non-hand-soldering components
+- Switched to XC6206, which is much smaller and easier to fit on my board (this required I switch C8 and C9 to 1uF instead of 10uF btw)
+- Added plate-mount stabilizers (see below)
+- Routed differential pair correctly (see below)
+
+**Stabilizers Part 1: Research**
+I realized a bit too late that my keyboard was missing stabilizers lol
+Firstly, I had to figure out what stabilizers to get, and after some research, I decided on these [Amazon Durock stabilizers](https://www.amazon.com/DUROCK-Stabilizer-Innovative-Pre-clipped-Stabilizers/dp/B0CTHT34MJ/ref=sr_1_5?crid=1ZMBVF26FGWLV&dib=eyJ2IjoiMSJ9.DvmE40T5Ex4sekmzyGAhhN7koVA-8Bv81T4ucaot9j_Akf0dDoQH3iHd61I_vRiQSEgYBPbsM-MHIq-VofpGfHl5Pa4k5-1Z5KNKk8rbB4TlC_oLh0dTz_ECtyppbf6WxU-frjN0QzzeG30VtrC5Sjo82_gu2nQQkjZI5Y1hgoG_OiQ0fKLUUJgVyhXKgnSF.gTH8_1ATgYwqAHWPZnnPBOpwPMJXJfO6WSVxPl_kA6Y&dib_tag=se&keywords=durock%2Bplate%2Bmount%2Bstabilizers%2B2u&qid=1761952953&sprefix=durock%2Bplate%2Bmount%2Bstabilizers%2B2u%2Caps%2C152&sr=8-5&th=1)
+However, this stabilizer kit only includes 2u, 6.25u, and 7u stabilizer widths, which is a problem, because my board includes a 2.25u Enter key. 
+
+To fix this, I decided to split the Enter key into a 1u ; or " key plus a 1.25u Enter key. ![image](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NzI3OCwicHVyIjoiYmxvYl9pZCJ9fQ==--ac1717d474a13ea1c5bf0831b9fd7084d364208d/image.png)
+
+So, I had to add another switch and diode to the schematic and PCB layout, but this was a pretty quick fix. 
+
+Now, the only stabilizers I need are 2 2u, which the Amazon listing includes. 
+
+**Stabilizers Part 2: Layout Pain**
+When I laid out the double 2u stabilizers on my PCB, there were many many interference issues. Their holes intersected a lot of the traces and components I had laid out already :/
+
+I was forced to move basically every component, including 5 capacitors, the uDB connector, ESD protection circuit, the boot switch, and the new XC6206. 
+I did this of course after I learned how to route the differential pair correctly (I'll get to this later), so I had to redo that when I moved the ESD protection and the uDB connector. 
+The boot switch is now vertical, and everything on the left side fits nicely due to the small size of the XC6206. 
+And after moving some bonus traces and capacitors, everything fit with the stabilizers!
+
+![image](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NzI4MCwicHVyIjoiYmxvYl9pZCJ9fQ==--4a8bbe7fc177ebfb79a20d395d4e46f626e2810d/image.png)
+
+
+**Routing the Differential Pair**
+The USB's D+ and D- lines are considered a Differential Pair, which are just traces that need to have the same length and be routed closely together with no interferences, to avoid data distortion and some other bad stuff. 
+
+Luckily, KiCAD has differential pair routing neatly integrated, all you have to do is press the "6" key while hovering over pads for a differential pair, and it will lay dual traces nicely. 
+
+However, because 99% of the time, traces can't be perfectly straight, the one trace of the pair is longer than the other. Their length needs to be tuned to be the exact same value, which seems really hard to do. Again, KiCAD comes to the rescue, because pressing "9" lets you tune the length of traces in a differential pair to have a difference of 0 trace length. The tuning tool adds a little bit extra trace length to the shorter trace to account for the difference. That's why there's little "bubbles" in my differential pair runs for the USB connector. 
+![image](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NzI3OSwicHVyIjoiYmxvYl9pZCJ9fQ==--03e62becd9641ecdc79b2aba6ef2421f6167246a/image.png)
+
+The PCB is almost done, so I'll start on the case's CAD soon!  
+
