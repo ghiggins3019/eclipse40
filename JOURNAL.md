@@ -126,6 +126,8 @@ The USB's D+ and D- lines are considered a Differential Pair, which are just tra
 Luckily, KiCAD has differential pair routing neatly integrated, all you have to do is press the "6" key while hovering over pads for a differential pair, and it will lay dual traces nicely. 
 
 However, because 99% of the time, traces can't be perfectly straight, the one trace of the pair is longer than the other. Their length needs to be tuned to be the exact same value, which seems really hard to do. Again, KiCAD comes to the rescue, because pressing "9" lets you tune the length of traces in a differential pair to have a difference of 0 trace length. The tuning tool adds a little bit extra trace length to the shorter trace to account for the difference. That's why there's little "bubbles" in my differential pair runs for the USB connector. 
+
+Making the ESD protection circuit mount at 45 degrees also helps get the differential pair runs, the +5V, and GND to route nicer.
 ![image](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NzI3OSwicHVyIjoiYmxvYl9pZCJ9fQ==--03e62becd9641ecdc79b2aba6ef2421f6167246a/image.png)
 
 Here's a picture of the current schematic and PCB:
